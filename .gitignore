@@ -1,6 +1,9 @@
 # latex
 latex/
 
+# data
+DOTmark/
+
 # Prerequisites
 *.d
 
