@@ -6,7 +6,7 @@ rand('seed', 0);
 
 if 1 == 1
     % SET YOUR LOCAL PATH TO THE BENCHMARKS
-    base = "/home/max/Documents/PhD/wasserstein/dpartion-nips2018/DOTmark/Data/";
+    base = "../DOTmark/Data/";
     
     imsize = "/data32_";
     images = ["CauchyDensity", "ClassicImages", "GRFmoderate", "GRFrough", "GRFsmooth", "LogGRF", "LogitGRF", "MicroscopyImages", "Shapes", "WhiteNoise"];
@@ -56,7 +56,7 @@ for fi = 1:ni
             b = b(:);
             % IT IS HARD TO FIND A GOOD VALUE OF LAMBDA FOR ALL CLASS OF
             % IMAGES
-            for lambda = [0.125]%0.75,1.0,1.25,1.5]
+            for lambda = [1.0]%0.75,1.0,1.25,1.5]
                 H1 = a;
                 H2 = b;
                 
