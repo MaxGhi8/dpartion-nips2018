@@ -6,11 +6,9 @@ rand('seed', 0);
 
 if 1 == 1
     % SET YOUR LOCAL PATH TO THE BENCHMARKS
-    %b = "C:\Users\Gualandi\Google Drive";
-    b = "D:\GoogleDrive";
-    base = b + "\Ricerca\DOTA\data\DOTmark_1.0\Data\";
+    base = "/home/max/Documents/PhD/wasserstein/dpartion-nips2018/DOTmark/Data/";
     
-    imsize = "\data32_";
+    imsize = "/data32_";
     images = ["CauchyDensity", "ClassicImages", "GRFmoderate", "GRFrough", "GRFsmooth", "LogGRF", "LogitGRF", "MicroscopyImages", "Shapes", "WhiteNoise"];
     fs = ["1001.csv","1002.csv","1003.csv","1004.csv","1005.csv","1006.csv","1007.csv","1008.csv","1009.csv","1010.csv"];
     nh = 32;
