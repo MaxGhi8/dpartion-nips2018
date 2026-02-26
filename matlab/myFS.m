@@ -9,8 +9,9 @@ function [distance] = myFS(a, b, A, lambda, maxIter, tol, verbose, C)
     end
     
     if nargin < 6 || isempty(tol)
-        tolerance = 0.1e-5;
+        tol = 0.1e-5;
     end
+    tolerance = tol;
     
     if nargin < 7 || isempty(verbose)
         verbose = false;
