@@ -4,14 +4,16 @@
 #include <lemon/smart_graph.h>
 #include <lemon/network_simplex.h>
 
+#include <cstdint>
+
 using namespace lemon;
 using namespace std;
 
 // Implement Tripartite formulation for 2D histograms of size N x N
 // mu and nu are the input histograms as flat arrays of size N*N
-double compute_tripartite_ot(int N, const vector<double>& mu, const vector<double>& nu) {
+double compute_tripartite_ot(int N, const vector<int64_t>& mu, const vector<int64_t>& nu) {
     SmartDigraph g;
-    SmartDigraph::NodeMap<double> supply(g);
+    SmartDigraph::NodeMap<int64_t> supply(g);
     SmartDigraph::ArcMap<double> cost(g);
     
     int num_nodes = N * N;
@@ -21,7 +23,7 @@ double compute_tripartite_ot(int N, const vector<double>& mu, const vector<doubl
     vector<SmartDigraph::Node> V2(num_nodes);
     vector<SmartDigraph::Node> V3(num_nodes);
     
-    double total_supply = 0;
+    int64_t total_supply = 0;
     
     for (int i = 0; i < num_nodes; ++i) {
         V1[i] = g.addNode();
@@ -59,13 +61,13 @@ double compute_tripartite_ot(int N, const vector<double>& mu, const vector<doubl
         }
     }
     
-    NetworkSimplex<SmartDigraph, double, double> ns(g);
+    NetworkSimplex<SmartDigraph, int64_t, double> ns(g);
     ns.supplyMap(supply);
     ns.costMap(cost);
     
-    NetworkSimplex<SmartDigraph, double, double>::ProblemType status = ns.run();
+    NetworkSimplex<SmartDigraph, int64_t, double>::ProblemType status = ns.run();
     
-    if (status == NetworkSimplex<SmartDigraph, double, double>::OPTIMAL) {
+    if (status == NetworkSimplex<SmartDigraph, int64_t, double>::OPTIMAL) {
         return ns.totalCost();
     } else {
         cerr << "Error: Optimal solution not found!" << endl;

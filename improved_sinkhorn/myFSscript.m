@@ -4,22 +4,12 @@ format short
 
 rand('seed', 0);
 
-if 1 == 1
-    % SET YOUR LOCAL PATH TO THE BENCHMARKS
-    base = "../DOTmark/Data/";
-    
-    imsize = "/data32_";
-    images = ["CauchyDensity", "ClassicImages", "GRFmoderate", "GRFrough", "GRFsmooth", "LogGRF", "LogitGRF", "MicroscopyImages", "Shapes", "WhiteNoise"];
-    fs = ["1001.csv","1002.csv","1003.csv","1004.csv","1005.csv","1006.csv","1007.csv","1008.csv","1009.csv","1010.csv"];
-    nh = 32;
-else
-    % BASIC TEST
-    base = "./";
-    images = "";
-    imsize = "";
-    fs = ["test1.csv","test2.csv"];%,"1003.csv","1004.csv","1005.csv","1006.csv","1007.csv","1008.csv","1009.csv","1010.csv"];
-    nh = 4;
-end
+base = "../DOTmark/Data/";
+
+imsize = "/data32_";
+images = ["CauchyDensity"]; %, "ClassicImages", "GRFmoderate", "GRFrough", "GRFsmooth", "LogGRF", "LogitGRF", "MicroscopyImages", "Shapes", "WhiteNoise"];
+fs = ["1001.csv","1002.csv","1003.csv","1004.csv","1005.csv","1006.csv","1007.csv","1008.csv","1009.csv","1010.csv"];
+nh = 32;
 
 d1 = nh*nh;
 d2 = nh*nh;
@@ -54,9 +44,8 @@ for fi = 1:ni
         for f2 = (f1+1):k
             b = csvread(base+images(fi)+imsize+fs(f2));
             b = b(:);
-            % IT IS HARD TO FIND A GOOD VALUE OF LAMBDA FOR ALL CLASS OF
-            % IMAGES
-            for lambda = [1.0]%0.75,1.0,1.25,1.5]
+
+            for lambda = [1.5] % 0.75, 1.0, 1.25, 1.5
                 H1 = a;
                 H2 = b;
                 

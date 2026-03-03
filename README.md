@@ -9,6 +9,10 @@ This repository contains additional material for the paper:
 The repository is organized as follows:
 
 - [NeurIPS poster](https://github.com/stegua/dpartion-nips2018/blob/master/PosterNIPS2018.pdf) to be presented during the conference
-- [Matlab source code](https://github.com/stegua/dpartion-nips2018/tree/master/matlab) of our implementation of the Sinkhorn's algorithm used in the comparison
+- [Matlab source code](https://github.com/stegua/dpartion-nips2018/tree/master/matlab) of our implementation of the improved Sinkhorn's algorithm used in the comparison
 - _(ops... work in progress, the code is on the way...)_ [C++ source code]() of our solver for the _(d+1)_-partite formulation. Our implementation relies on the
   [Network Simplex](http://lemon.cs.elte.hu/pub/doc/latest/a00269.html) of the [Lemon Graph Library](https://lemon.cs.elte.hu/trac/lemon)
+
+## Dataset
+
+The DOTmark dataset is available at [DOTmark](www.stochastik.math.uni-goettingen.de/DOTmark/).

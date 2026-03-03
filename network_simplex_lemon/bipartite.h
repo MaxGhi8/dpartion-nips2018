@@ -4,6 +4,8 @@
 #include <lemon/smart_graph.h>
 #include <lemon/network_simplex.h>
 
+#include <cstdint>
+
 using namespace lemon;
 using namespace std;
 
@@ -14,9 +16,9 @@ double compute_cost(int i, int j, int a, int b) {
 
 // Implement Bipartite formulation for 2D histograms of size N x N
 // mu and nu are the input histograms as flat arrays of size N*N
-double compute_bipartite_ot(int N, const vector<double>& mu, const vector<double>& nu) {
+double compute_bipartite_ot(int N, const vector<int64_t>& mu, const vector<int64_t>& nu) {
     SmartDigraph g;
-    SmartDigraph::NodeMap<double> supply(g);
+    SmartDigraph::NodeMap<int64_t> supply(g);
     SmartDigraph::ArcMap<double> cost(g);
     SmartDigraph::ArcMap<double> capacity(g);
     
@@ -26,8 +28,8 @@ double compute_bipartite_ot(int N, const vector<double>& mu, const vector<double
     vector<SmartDigraph::Node> V1(num_nodes);
     vector<SmartDigraph::Node> V2(num_nodes);
     
-    double total_supply = 0;
-    double total_demand = 0;
+    int64_t total_supply = 0;
+    int64_t total_demand = 0;
     
     for (int i = 0; i < num_nodes; ++i) {
         V1[i] = g.addNode();

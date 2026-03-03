@@ -17,3 +17,6 @@ endif()
 
 add_executable(ot_test ot_test.cpp)
 target_link_libraries(ot_test ${LEMON_LIBRARY})
+
+add_executable(benchmark_dotmark main.cpp)
+target_link_libraries(benchmark_dotmark ${LEMON_LIBRARY})
