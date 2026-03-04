@@ -6,10 +6,10 @@ rand('seed', 0);
 
 base = "../DOTmark/Data/";
 
-imsize = "/data32_";
+nh = 64;
+imsize = "/data"+num2str(nh)+"_";
 images = ["CauchyDensity"]; %, "ClassicImages", "GRFmoderate", "GRFrough", "GRFsmooth", "LogGRF", "LogitGRF", "MicroscopyImages", "Shapes", "WhiteNoise"];
 fs = ["1001.csv","1002.csv","1003.csv","1004.csv","1005.csv","1006.csv","1007.csv","1008.csv","1009.csv","1010.csv"];
-nh = 32;
 
 d1 = nh*nh;
 d2 = nh*nh;
@@ -45,13 +45,13 @@ for fi = 1:ni
             b = csvread(base+images(fi)+imsize+fs(f2));
             b = b(:);
 
-            for lambda = [1.5] % 0.75, 1.0, 1.25, 1.5
+            for lambda = [0.5] % 0.75, 1.0, 1.25, 1.5
                 H1 = a;
                 H2 = b;
                 
                 % Measure time
                 tStart = tic;
-                D = myFS(H1, H2, A, lambda, 2000, [], false, C);
+                D = myFS(H1, H2, A, lambda, 5000, [], false, C);
                 tElapsed = toc(tStart);
 
                 disp(join([images(fi),fs(f1),fs(f2),'lambda',num2str(lambda),'runtime', num2str(tElapsed), 'UB', num2str(D)]));
