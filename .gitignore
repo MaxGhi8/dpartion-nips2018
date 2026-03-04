@@ -46,3 +46,7 @@ build/
 
 # Compiled tests
 hello_lemon
+
+# Python
+.python-version
+__pycache__/
