@@ -3,6 +3,7 @@ project(optimal_transport)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_FLAGS "-O3 -DNDEBUG -march=native -flto -funroll-loops -finline-functions -fstrict-aliasing")
 
 # Find the Lemon Graph Library
 find_library(LEMON_LIBRARY NAMES lemon PATHS /usr/lib /usr/local/lib)

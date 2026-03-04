@@ -3,6 +3,7 @@
 #include <cmath>
 #include <lemon/smart_graph.h>
 #include <lemon/network_simplex.h>
+#include <chrono>
 
 #include <cstdint>
 
@@ -16,7 +17,7 @@ double compute_cost(int i, int j, int a, int b) {
 
 // Implement Bipartite formulation for 2D histograms of size N x N
 // mu and nu are the input histograms as flat arrays of size N*N
-double compute_bipartite_ot(int N, const vector<int64_t>& mu, const vector<int64_t>& nu) {
+double compute_bipartite_ot(int N, const vector<int64_t>& mu, const vector<int64_t>& nu, double& resolve_time) {
     SmartDigraph g;
     SmartDigraph::NodeMap<int64_t> supply(g);
     SmartDigraph::ArcMap<double> cost(g);
@@ -61,7 +62,12 @@ double compute_bipartite_ot(int N, const vector<int64_t>& mu, const vector<int64
     ns.costMap(cost);
     // ns.upperMap(capacity); // Omit for uncapacitated problem
     
+    auto tStart = chrono::high_resolution_clock::now();
     NetworkSimplex<SmartDigraph, double, double>::ProblemType status = ns.run();
+    auto tEnd = chrono::high_resolution_clock::now();
+    
+    chrono::duration<double> tElapsed = tEnd - tStart;
+    resolve_time = tElapsed.count();
     
     if (status == NetworkSimplex<SmartDigraph, double, double>::OPTIMAL) {
         return ns.totalCost();

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <lemon/smart_graph.h>
 #include <lemon/network_simplex.h>
+#include <chrono>
 
 #include <cstdint>
 
@@ -11,7 +12,7 @@ using namespace std;
 
 // Implement Tripartite formulation for 2D histograms of size N x N
 // mu and nu are the input histograms as flat arrays of size N*N
-double compute_tripartite_ot(int N, const vector<int64_t>& mu, const vector<int64_t>& nu) {
+double compute_tripartite_ot(int N, const vector<int64_t>& mu, const vector<int64_t>& nu, double& resolve_time) {
     SmartDigraph g;
     SmartDigraph::NodeMap<int64_t> supply(g);
     SmartDigraph::ArcMap<double> cost(g);
@@ -65,7 +66,12 @@ double compute_tripartite_ot(int N, const vector<int64_t>& mu, const vector<int6
     ns.supplyMap(supply);
     ns.costMap(cost);
     
+    auto tStart = chrono::high_resolution_clock::now();
     NetworkSimplex<SmartDigraph, int64_t, double>::ProblemType status = ns.run();
+    auto tEnd = chrono::high_resolution_clock::now();
+    
+    chrono::duration<double> tElapsed = tEnd - tStart;
+    resolve_time = tElapsed.count();
     
     if (status == NetworkSimplex<SmartDigraph, int64_t, double>::OPTIMAL) {
         return ns.totalCost();

@@ -21,11 +21,13 @@ int main() {
     
     cout << "Running tests with N=" << N << endl;
     
-    double cost_bipartite = compute_bipartite_ot(N, mu, nu);
-    cout << "Bipartite Cost: " << cost_bipartite << endl;
+    double t1 = 0.0, t2 = 0.0;
     
-    double cost_tripartite = compute_tripartite_ot(N, mu, nu);
-    cout << "Tripartite Cost: " << cost_tripartite << endl;
+    double cost_bipartite = compute_bipartite_ot(N, mu, nu, t1);
+    cout << "Bipartite Cost: " << cost_bipartite << " (" << t1 << "s solve time)" << endl;
+    
+    double cost_tripartite = compute_tripartite_ot(N, mu, nu, t2);
+    cout << "Tripartite Cost: " << cost_tripartite << " (" << t2 << "s solve time)" << endl;
     
     double expected_dist_sq = (0 - 2)*(0 - 2) + (0 - 2)*(0 - 2);
     

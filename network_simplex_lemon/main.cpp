@@ -3,7 +3,6 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <chrono>
 #include <iomanip>
 #include <cmath>
 
@@ -41,8 +40,7 @@ vector<int64_t> read_csv(const string& filepath, int N) {
 }
 
 int main() {
-    // Update base path to point two directories up to reach dpartion-nips2018/DOTmark
-    // since the executable will run from network_simplex_lemon/build/
+    // The executable will run from network_simplex_lemon/build/
     string base = "../../DOTmark/Data/";
     string imsize = "/data32_";
     
@@ -64,19 +62,16 @@ int main() {
 
     for (size_t fi = 0; fi < images.size(); ++fi) {
         for (size_t f1 = 0; f1 < fs.size() - 1; ++f1) {
+            // First image
             string path_a = base + images[fi] + imsize + fs[f1];
             vector<int64_t> a = read_csv(path_a, nh);
             
             for (size_t f2 = f1 + 1; f2 < fs.size(); ++f2) {
-                
+                // Second image
                 string path_b = base + images[fi] + imsize + fs[f2];
                 vector<int64_t> b = read_csv(path_b, nh);
                 
-                // For exact uncapacitated network simplex solvers, 
-                // integer capacities are required to avoid precision errors. 
-                // We ensure sum(a) exactly equals sum(b). Since they might be slightly off in the DOTmark CSVs, 
-                // we multiply a by sum(b) and b by sum(a) to force perfect integer equality.
-                
+                // We ensure sum(a) exactly equals sum(b). 
                 int64_t sum_a = 0;
                 int64_t sum_b = 0;
                 for(int64_t v : a) sum_a += v;
@@ -90,24 +85,19 @@ int main() {
                     scaled_b[i] = b[i] * sum_a;
                 }
 
-                auto tStart = chrono::high_resolution_clock::now();
+                double resolve_time = 0.0;
                 
                 // Compute optimal transport cost
-                double D = compute_bipartite_ot(nh, scaled_a, scaled_b);
+                double D = compute_tripartite_ot(nh, scaled_a, scaled_b, resolve_time);
                 
                 // We scaled 'a' by 'sum_b' and 'b' by 'sum_a' to make their mass exactly equal to (sum_a * sum_b)
                 // MATLAB computes the distance on the UNNORMALIZED arrays (mass = sum_a)
                 // So to get the cost scaled to the original mass of 'a', we only divide out 'sum_b'.
                 D = D / (double)sum_b;
 
-                auto tEnd = chrono::high_resolution_clock::now();
-                chrono::duration<double> tElapsed = tEnd - tStart;
-
-                // Emulate MATLAB Output: images(fi) fs(f1) fs(f2) lambda runtime UB
-                // Since this is exact network simplex, lambda is conceptually 'inf' or exact. We mimic the string formatting.
                 cout << images[fi] << " " << fs[f1] << " " << fs[f2] 
                      << " exact_lemon" 
-                     << " runtime " << tElapsed.count() 
+                     << " runtime " << resolve_time
                      << " UB " << D << endl;
             }
         }
