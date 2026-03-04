@@ -42,7 +42,8 @@ vector<int64_t> read_csv(const string& filepath, int N) {
 int main() {
     // The executable will run from network_simplex_lemon/build/
     string base = "../../DOTmark/Data/";
-    string imsize = "/data32_";
+    int nh = 64;
+    string imsize = "/data"+to_string(nh)+"_";
     
     vector<string> images = {
         "CauchyDensity", 
@@ -55,7 +56,6 @@ int main() {
         "1006.csv", "1007.csv", "1008.csv", "1009.csv", "1010.csv"
     };
     
-    int nh = 32;
     int num_nodes = nh * nh;
     
     cout << fixed << setprecision(4);
