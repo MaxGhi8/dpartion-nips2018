@@ -101,7 +101,7 @@ The [DOTmark](http://www.stochastik.math.uni-goettingen.de/DOTmark/) benchmark d
 
 ## Key Design Decisions
 
-- **Tripartite Decomposition**: For the case of computing Wasserstein distances between two images, the (d+1)-partite formulation reduces the number of arcs from O(N⁴) (bipartite) to O(2·N³) (tripartite), enabling significantly faster computation.
+- **Tripartite Decomposition**: For the case of computing Wasserstein distances between two images, the (d+1)-partite formulation reduces the number of arcs from O(N^4) (bipartite) to O(2·N^3) (tripartite), enabling significantly faster computation.
 
 ## License
 
