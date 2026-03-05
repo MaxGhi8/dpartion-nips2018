@@ -71,18 +71,22 @@ int main() {
                 string path_b = base + images[fi] + imsize + fs[f2];
                 vector<int64_t> b = read_csv(path_b, nh);
                 
-                // We ensure sum(a) exactly equals sum(b). 
+                // GCD-based scaling to minimize value magnitudes (faster solver)
                 int64_t sum_a = 0;
                 int64_t sum_b = 0;
                 for(int64_t v : a) sum_a += v;
                 for(int64_t v : b) sum_b += v;
                 
+                int64_t g = __gcd(sum_a, sum_b);
+                int64_t scale_a = sum_b / g;
+                int64_t scale_b = sum_a / g;
+                
                 vector<int64_t> scaled_a(num_nodes);
                 vector<int64_t> scaled_b(num_nodes);
                 
                 for(int i = 0; i < num_nodes; ++i) {
-                    scaled_a[i] = a[i] * sum_b;
-                    scaled_b[i] = b[i] * sum_a;
+                    scaled_a[i] = a[i] * scale_a;
+                    scaled_b[i] = b[i] * scale_b;
                 }
 
                 double resolve_time = 0.0;
@@ -90,10 +94,8 @@ int main() {
                 // Compute optimal transport cost
                 double D = compute_tripartite_ot(nh, scaled_a, scaled_b, resolve_time);
                 
-                // We scaled 'a' by 'sum_b' and 'b' by 'sum_a' to make their mass exactly equal to (sum_a * sum_b)
-                // MATLAB computes the distance on the UNNORMALIZED arrays (mass = sum_a)
-                // So to get the cost scaled to the original mass of 'a', we only divide out 'sum_b'.
-                D = D / (double)sum_b;
+                // Rescale cost back to original mass of 'a'
+                D = D / (double)scale_a;
 
                 cout << images[fi] << " " << fs[f1] << " " << fs[f2] 
                      << " exact_lemon" 
