@@ -56,11 +56,33 @@ This directory includes a `CMakeLists.txt` file configured to find the Lemon lib
    ```
 
 4. **Run the test**:
-
    ```bash
    ./ot_test
    ```
 
+## Benchmarking with `main.cpp`
+
+The file `main.cpp` is used for benchmarking the Optimal Transport algorithms on the **DOTmark dataset**. It reads 2D histograms from CSV files, scales them appropriately, and computes the exact Kantorovich-Wasserstein distance using the tripartite formulation.
+
+1. **Compilation**:
+   Like `ot_test.cpp`, it is managed by the same `CMakeLists.txt`. In your `build` directory, running `make` will also produce the `benchmark_dotmark` executable.
+
+2. **Dataset Requirement**:
+   This benchmark expects the DOTmark dataset to be located at `../../DOTmark/Data/`. It specifically looks for CSV files in subdirectories like `CauchyDensity/data64_*.csv`.
+
+3. **Run the benchmark**:
+   ```bash
+   ./benchmark_dotmark
+   ```
+
+4. **What it does**:
+   - Iterates through the specified image classes (e.g., `CauchyDensity`).
+   - Reads pairs of 64x64 histograms from the DOTmark CSV files.
+   - Scales the mass of both histograms to ensure they are balanced (total supply = total demand) using GCD-based scaling.
+   - Computes the exact OT cost using `compute_tripartite_ot`.
+   - Outputs the image class, file names, runtime, and the computed cost.
+
 5. **Quick Re-compilation**:
+
 
 If you modify `ot_test.cpp` or any of the `.h` files, you do not need to repeat all the steps above! Just go into your `build` directory and run `make` again. The compiler is smart enough to only rebuild exactly what has changed.
