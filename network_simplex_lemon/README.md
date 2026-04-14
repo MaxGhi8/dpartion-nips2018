@@ -22,7 +22,7 @@ The file `hello_lemon.cc` is a minimal, standalone C++ file. Because it has no c
    Use `g++` and make sure to link the lemon library with the `-llemon` flag:
 
    ```bash
-   g++ -o hello_lemon hello_lemon.cc -llemon
+   g++ -o hello_lemon.out hello_lemon.cc -llemon
    ```
 
 2. **Run it**:
