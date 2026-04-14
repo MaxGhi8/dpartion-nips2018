@@ -1,9 +1,3 @@
-# latex
-latex/
-
-# data
-DOTmark/
-
 # Prerequisites
 *.d
 
@@ -40,13 +34,3 @@ DOTmark/
 *.bbl
 *.blg
 *.log
-
-# CMake Build Directory
-build/
-
-# Compiled tests
-hello_lemon
-
-# Python
-.python-version
-__pycache__/
