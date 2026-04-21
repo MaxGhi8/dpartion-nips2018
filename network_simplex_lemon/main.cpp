@@ -11,7 +11,7 @@
 
 using namespace std;
 
-// Function to read a 32x32 CSV file mapping into a 1D vector (N=32)
+// Function to read an N x N CSV file into a 1D vector
 vector<int64_t> read_csv(const string& filepath, int N) {
     vector<int64_t> data(N * N, 0);
     ifstream file(filepath);

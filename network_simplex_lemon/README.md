@@ -27,7 +27,7 @@ The file `hello_lemon.cc` is a minimal, standalone C++ file. Because it has no c
 
 2. **Run it**:
    ```bash
-   ./hello_lemon
+   ./hello_lemon.out
    ```
 
 ## Running `ot_test.cpp` (Optimal Transport Tests)
@@ -71,6 +71,7 @@ The file `main.cpp` is used for benchmarking the Optimal Transport algorithms on
    This benchmark expects the DOTmark dataset to be located at `../../DOTmark/Data/`. It specifically looks for CSV files in subdirectories like `CauchyDensity/data64_*.csv`.
 
 3. **Run the benchmark**:
+
    ```bash
    ./benchmark_dotmark
    ```
@@ -83,6 +84,5 @@ The file `main.cpp` is used for benchmarking the Optimal Transport algorithms on
    - Outputs the image class, file names, runtime, and the computed cost.
 
 5. **Quick Re-compilation**:
-
 
 If you modify `ot_test.cpp` or any of the `.h` files, you do not need to repeat all the steps above! Just go into your `build` directory and run `make` again. The compiler is smart enough to only rebuild exactly what has changed.
