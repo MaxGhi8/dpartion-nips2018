@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -7,24 +9,21 @@
 
 #include <cstdint>
 
-using namespace lemon;
-using namespace std;
-
 // Implement Tripartite formulation for 2D histograms of size N x N
 // mu and nu are the input histograms as flat arrays of size N*N
-double compute_tripartite_ot(int N, const vector<int64_t>& mu, const vector<int64_t>& nu, double& resolve_time) {
-    SmartDigraph g;
-    SmartDigraph::NodeMap<int64_t> supply(g);
-    SmartDigraph::ArcMap<double> cost(g);
+inline double compute_tripartite_ot(int N, const std::vector<std::int64_t>& mu, const std::vector<std::int64_t>& nu, double& resolve_time) {
+    lemon::SmartDigraph g;
+    lemon::SmartDigraph::NodeMap<std::int64_t> supply(g);
+    lemon::SmartDigraph::ArcMap<double> cost(g);
     
     int num_nodes = N * N;
     
     // Create nodes for V1 (source mu), V2 (intermediate), V3 (target nu)
-    vector<SmartDigraph::Node> V1(num_nodes);
-    vector<SmartDigraph::Node> V2(num_nodes);
-    vector<SmartDigraph::Node> V3(num_nodes);
+    std::vector<lemon::SmartDigraph::Node> V1(num_nodes);
+    std::vector<lemon::SmartDigraph::Node> V2(num_nodes);
+    std::vector<lemon::SmartDigraph::Node> V3(num_nodes);
     
-    int64_t total_supply = 0;
+    std::int64_t total_supply = 0;
     
     for (int i = 0; i < num_nodes; ++i) {
         V1[i] = g.addNode();
@@ -44,7 +43,7 @@ double compute_tripartite_ot(int N, const vector<int64_t>& mu, const vector<int6
             int u1 = a * N + j;
             for (int i = 0; i < N; ++i) {
                 int v2 = i * N + j;
-                SmartDigraph::Arc arc = g.addArc(V1[u1], V2[v2]);
+                lemon::SmartDigraph::Arc arc = g.addArc(V1[u1], V2[v2]);
                 cost[arc] = (a - i) * (a - i);
             }
         }
@@ -56,27 +55,27 @@ double compute_tripartite_ot(int N, const vector<int64_t>& mu, const vector<int6
             int u2 = i * N + j;
             for (int b = 0; b < N; ++b) {
                 int v3 = i * N + b;
-                SmartDigraph::Arc arc = g.addArc(V2[u2], V3[v3]);
+                lemon::SmartDigraph::Arc arc = g.addArc(V2[u2], V3[v3]);
                 cost[arc] = (j - b) * (j - b);
             }
         }
     }
     
-    NetworkSimplex<SmartDigraph, int64_t, double> ns(g);
+    lemon::NetworkSimplex<lemon::SmartDigraph, std::int64_t, double> ns(g);
     ns.supplyMap(supply);
     ns.costMap(cost);
     
-    auto tStart = chrono::high_resolution_clock::now();
-    NetworkSimplex<SmartDigraph, int64_t, double>::ProblemType status = ns.run();
-    auto tEnd = chrono::high_resolution_clock::now();
+    auto tStart = std::chrono::high_resolution_clock::now();
+    lemon::NetworkSimplex<lemon::SmartDigraph, std::int64_t, double>::ProblemType status = ns.run();
+    auto tEnd = std::chrono::high_resolution_clock::now();
     
-    chrono::duration<double> tElapsed = tEnd - tStart;
+    std::chrono::duration<double> tElapsed = tEnd - tStart;
     resolve_time = tElapsed.count();
     
-    if (status == NetworkSimplex<SmartDigraph, int64_t, double>::OPTIMAL) {
+    if (status == lemon::NetworkSimplex<lemon::SmartDigraph, std::int64_t, double>::OPTIMAL) {
         return ns.totalCost();
     } else {
-        cerr << "Error: Optimal solution not found!" << endl;
+        std::cerr << "Error: Optimal solution not found!" << std::endl;
         return -1.0;
     }
 }
